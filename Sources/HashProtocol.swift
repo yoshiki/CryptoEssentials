@@ -6,11 +6,19 @@
 //  Copyright (c) 2014 Marcin Krzyzanowski. All rights reserved.
 //
 
+@_exported import C7
+
 public protocol HashProtocol {
     var message: Array<UInt8> { get }
     
     /** Common part for hash calculation. Prepare header data. */
     func prepare(len:Int) -> Array<UInt8>
+    
+    static var size: Int { get }
+    
+    func calculate() -> [Byte]
+    
+    init (_ message: Array<UInt8>)
 }
 
 extension HashProtocol {
