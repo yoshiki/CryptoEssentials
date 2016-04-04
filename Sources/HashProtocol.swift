@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Marcin Krzyzanowski. All rights reserved.
 //
 
-internal protocol HashProtocol {
+public protocol HashProtocol {
     var message: Array<UInt8> { get }
     
     /** Common part for hash calculation. Prepare header data. */
@@ -15,7 +15,7 @@ internal protocol HashProtocol {
 
 extension HashProtocol {
     
-    func prepare(len:Int) -> Array<UInt8> {
+    public func prepare(len:Int) -> Array<UInt8> {
         var tmpMessage = message
         
         // Step 1. Append Padding Bits
