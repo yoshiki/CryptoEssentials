@@ -9,36 +9,7 @@
 @_exported import C7
 
 public protocol HashProtocol {
-    var message: Array<UInt8> { get }
-    
-    /** Common part for hash calculation. Prepare header data. */
-    func prepare(len:Int) -> Array<UInt8>
-    
     static var size: Int { get }
     
-    func calculate() -> [Byte]
-    
-    init (_ message: Array<UInt8>)
-}
-
-extension HashProtocol {
-    
-    public func prepare(len:Int) -> Array<UInt8> {
-        var tmpMessage = message
-        
-        // Step 1. Append Padding Bits
-        tmpMessage.append(0x80) // append one bit (UInt8 with one bit) to message
-        
-        // append "0" bit until message length in bits ≡ 448 (mod 512)
-        var msgLength = tmpMessage.count
-        var counter = 0
-        
-        while msgLength % len != (len - 8) {
-            counter += 1
-            msgLength += 1
-        }
-        
-        tmpMessage += Array<UInt8>(repeating: 0, count: counter)
-        return tmpMessage
-    }
+    static func calculate(message: Array<UInt8>) -> [Byte]
 }
