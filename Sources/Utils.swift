@@ -55,6 +55,24 @@ public func toUInt32Array(slice: ArraySlice<Byte>) -> Array<UInt32> {
     return result
 }
 
+public func toUInt64Array(slice: ArraySlice<UInt8>) -> Array<UInt64> {
+    var result = Array<UInt64>()
+    result.reserveCapacity(32)
+    for idx in stride(from: slice.startIndex, to: slice.endIndex, by: sizeof(UInt64)) {
+        var val:UInt64 = 0
+        val |= UInt64(slice[idx.advanced(by: 7)]) << 56
+        val |= UInt64(slice[idx.advanced(by: 6)]) << 48
+        val |= UInt64(slice[idx.advanced(by: 5)]) << 40
+        val |= UInt64(slice[idx.advanced(by: 4)]) << 32
+        val |= UInt64(slice[idx.advanced(by: 3)]) << 24
+        val |= UInt64(slice[idx.advanced(by: 2)]) << 16
+        val |= UInt64(slice[idx.advanced(by: 1)]) << 8
+        val |= UInt64(slice[idx.advanced(by: 0)]) << 0
+        result.append(val)
+    }
+    return result
+}
+
 public func xor(a: [Byte], _ b:[Byte]) -> [Byte] {
     var xored = [Byte](repeating: 0, count: min(a.count, b.count))
     for i in 0..<xored.count {
